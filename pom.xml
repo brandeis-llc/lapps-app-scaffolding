@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.brandeis.lapps</groupId>
+    <artifactId>brandeis-lapps-service</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Brandeis scaffolding for LAPPS services</name>
+    <description>
+        Provides a scaffolding for lapps service developed at Brandeis.
+    </description>
+    <parent>
+        <groupId>org.lappsgrid.maven</groupId>
+        <artifactId>war-parent-pom</artifactId>
+        <version>2.2.0</version>
+    </parent>
+
+
+    <properties>
+        <lapps.all>2.5.0-SNAPSHOT</lapps.all>
+        <brandeis.nexus.baseurl>http://morbius.cs-i.brandeis.edu:8081</brandeis.nexus.baseurl>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>the Maven central repository</id>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>brandeis-nexus</id>
+            <name>Releases</name>
+            <url>${brandeis.nexus.baseurl}/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>brandeis-nexus</id>
+            <name>Snapshot</name>
+            <url>${brandeis.nexus.baseurl}/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.lappsgrid</groupId>
+            <artifactId>all</artifactId>
+            <version>${lapps.all}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
