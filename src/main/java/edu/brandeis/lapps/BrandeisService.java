@@ -114,7 +114,7 @@ public abstract class BrandeisService implements WebService {
 
     @Override
     public String getMetadata() {
-        return new Data<>(Uri.META, this.metadata).asPrettyJson();
+        return new Data<>(Uri.META, this.metadata).asJson();
     }
 
     /*** Helper methods ***/

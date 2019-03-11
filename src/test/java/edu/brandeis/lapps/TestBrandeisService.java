@@ -15,7 +15,6 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
 public class TestBrandeisService {
 
     protected BrandeisService service;
-    protected String testText;
 
     protected Container wrapContainer(String plainText) {
         Container container = new Container();
@@ -36,32 +35,8 @@ public class TestBrandeisService {
                         view -> view.setTimestamp("")));
     }
 
-    public Container canProcessLIFWrappedPlainText() {
-        String input = new Data<>(Uri.LIF, wrapContainer(testText)).asJson();
-        Container result = reconstructPayload(service.execute(input));
-        return result;
-
-    }
-
-    public Container canProcessPlainText() {
-        String result = service.execute(testText);
-        return reconstructPayload(result);
-
-    }
-
-    public Container testExecuteFromPlainAndLIFWrapped() {
-        Container fromPlain = canProcessPlainText();
-        Container fromWrapped = canProcessLIFWrappedPlainText();
-        purgeTimestamps(fromPlain, fromWrapped);
-        testExecuteResult(fromPlain, true);
-
-        return fromPlain;
-    }
-
     public void testExecuteResult(Container result, boolean wantEyeball) {
         assertNotNull(result);
-        assertEquals("Text is corrupted.", result.getText(), testText);
-        assertEquals("A service should generate 1 view.", 1, result.getViews().size());
         for (String expectedAType : service.metadata.getProduces().getAnnotations()) {
             String shortenedAType = BrandeisService.shortenAType(expectedAType);
             assertTrue("Not containing " + shortenedAType, result.getView(0).contains(expectedAType));
@@ -83,7 +58,7 @@ public class TestBrandeisService {
 
         Data data = Serializer.parse(json, Data.class);
         assertNotNull("Unable to parse metadata json.", data);
-        assertNotSame(data.getPayload().toString(), Uri.ERROR, data.getDiscriminator());
+        assertEquals(Uri.META, data.getDiscriminator());
 
         ServiceMetadata metadata = new ServiceMetadata((Map) data.getPayload());
 
