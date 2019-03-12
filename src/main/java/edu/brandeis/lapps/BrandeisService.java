@@ -227,7 +227,7 @@ public abstract class BrandeisService implements WebService {
 
     protected abstract ServiceMetadata loadMetadata();
 
-    // POJO metadata is read-only from the world
+    // TODO: 3/11/2019 POJO metadata must be read-only from the world
     public ServiceMetadata getMetadataPojo() {
         return this.metadata;
     }

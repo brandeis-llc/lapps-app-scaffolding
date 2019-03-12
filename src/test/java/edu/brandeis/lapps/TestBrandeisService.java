@@ -37,9 +37,10 @@ public class TestBrandeisService {
 
     public void testExecuteResult(Container result, boolean wantEyeball) {
         assertNotNull(result);
-        for (String expectedAType : service.metadata.getProduces().getAnnotations()) {
+        for (String expectedAType : service.getMetadataPojo().getProduces().getAnnotations()) {
             String shortenedAType = BrandeisService.shortenAType(expectedAType);
-            assertTrue("Not containing " + shortenedAType, result.getView(0).contains(expectedAType));
+            // assuming a new view added by the execution is always at the rear of views list
+            assertTrue("Not containing " + shortenedAType, result.getView(result.getViews().size() - 1).contains(expectedAType));
         }
 
         if (wantEyeball) {
