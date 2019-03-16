@@ -75,7 +75,6 @@ public class TestBrandeisService {
         assertEquals("Name is not correct", service.getClass().getName(), metadata.getName());
         assertEquals("Version is not correct.", service.getWrapperVersion(), metadata.getVersion());
         assertEquals("Tool version is not correct.", service.getWrappeeVersion(), metadata.getToolVersion());
-        assertEquals("License is not correct", Uri.APACHE2, metadata.getLicense());
 
         // return metadata object for additional tests
         return metadata;
