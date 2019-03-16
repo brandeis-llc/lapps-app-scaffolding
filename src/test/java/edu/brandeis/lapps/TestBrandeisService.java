@@ -37,11 +37,6 @@ public class TestBrandeisService {
 
     public void testExecuteResult(Container result, boolean wantEyeball) {
         assertNotNull(result);
-        for (String expectedAType : service.getMetadataPojo().getProduces().getAnnotations()) {
-            String shortenedAType = BrandeisService.shortenAType(expectedAType);
-            // assuming a new view added by the execution is always at the rear of views list
-            assertTrue("Not containing " + shortenedAType, result.getView(result.getViews().size() - 1).contains(expectedAType));
-        }
 
         if (wantEyeball) {
             System.out.println("<------------------------------------------------------------------------------");
@@ -49,6 +44,12 @@ public class TestBrandeisService {
             System.out.println("-------------------------------------------------------------------------------");
             System.out.println(Serializer.toPrettyJson(result));
             System.out.println("------------------------------------------------------------------------------>");
+        }
+
+        for (String expectedAType : service.getMetadataPojo().getProduces().getAnnotations()) {
+            String shortenedAType = BrandeisService.shortenAType(expectedAType);
+            // assuming a new view added by the execution is always at the rear of views list
+            assertTrue("Not containing " + shortenedAType, result.getView(result.getViews().size() - 1).contains(expectedAType));
         }
 
     }
@@ -63,17 +64,18 @@ public class TestBrandeisService {
 
         ServiceMetadata metadata = new ServiceMetadata((Map) data.getPayload());
 
-        assertEquals("Vendor is not correct", "http://www.cs.brandeis.edu/", metadata.getVendor());
-        assertEquals("Name is not correct", service.getClass().getName(), metadata.getName());
-        assertEquals("Version is not correct.", service.getVersion(), metadata.getVersion());
-        assertEquals("License is not correct", Uri.APACHE2, metadata.getLicense());
-
         // for human eyeballing
         System.out.println("<------------------------------------------------------------------------------");
         System.out.println(String.format("      %s         ", this.getClass().getName()));
         System.out.println("-------------------------------------------------------------------------------");
         System.out.println(Serializer.toPrettyJson(metadata));
         System.out.println("------------------------------------------------------------------------------>");
+
+        assertEquals("Vendor is not correct", "http://www.cs.brandeis.edu/", metadata.getVendor());
+        assertEquals("Name is not correct", service.getClass().getName(), metadata.getName());
+        assertEquals("Version is not correct.", service.getWrapperVersion(), metadata.getVersion());
+        assertEquals("Tool version is not correct.", service.getWrappeeVersion(), metadata.getToolVersion());
+        assertEquals("License is not correct", Uri.APACHE2, metadata.getLicense());
 
         // return metadata object for additional tests
         return metadata;

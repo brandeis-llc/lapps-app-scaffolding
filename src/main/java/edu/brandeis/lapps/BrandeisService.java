@@ -79,22 +79,22 @@ public abstract class BrandeisService implements WebService {
         }
 
         final String discriminator = data.getDiscriminator();
-        Container cont;
+        Container payload;
 
         switch (discriminator) {
             case Uri.ERROR:
                 return input;
             case Uri.JSON_LD:
             case Uri.LIF:
-                cont = new Container((Map) data.getPayload());
+                payload = new Container((Map) data.getPayload());
                 // TODO: 5/9/18 what if the existing payload has different schema version?
                 break;
             case Uri.TEXT:
-                cont = new Container();
+                payload = new Container();
                 // TODO: 5/9/18  fix url when it settles in
-                cont.setSchema(containerJsonScheme);
-                cont.setText((String) data.getPayload());
-                cont.setLanguage("en");
+                payload.setSchema(containerJsonScheme);
+                payload.setText((String) data.getPayload());
+                payload.setLanguage("en");
                 break;
             default:
                 String message = String.format
@@ -103,7 +103,7 @@ public abstract class BrandeisService implements WebService {
         }
 
         try {
-            return execute(cont);
+            return processPayload(payload);
         } catch (Throwable th) {
             th.printStackTrace();
             String message =
@@ -119,7 +119,7 @@ public abstract class BrandeisService implements WebService {
 
     /*** Helper methods ***/
 
-    public String getVersion() {
+    private String getVersion(String versionKey) {
         String path = "/version.properties";
         InputStream stream = getClass().getResourceAsStream(path);
         if (stream == null) {
@@ -129,16 +129,25 @@ public abstract class BrandeisService implements WebService {
         try {
             properties.load(stream);
             stream.close();
-            return (String) properties.get("version");
+            return (String) properties.get(versionKey);
         } catch (IOException e) {
             return "UNKNOWN";
         }
     }
 
+    public String getWrappeeVersion() {
+        return getVersion("toolversion");
+    }
+
+    public String getWrapperVersion() {
+        return getVersion("version");
+    }
+
+
     protected void setUpContainsMetadata(View view, String producerAlias) {
         for (String atype : this.metadata.getProduces().getAnnotations()) {
             Contains newContains = view.addContains(atype,
-                    String.format("%s:%s", this.getClass().getName(), getVersion()),
+                    String.format("%s:%s", this.getClass().getName(), getWrapperVersion()),
                     getContainsType(atype, producerAlias));
             if (this.metadata.getProduces().getTagSets().containsKey(atype)) {
                 newContains.put(tagsetMap.get(atype),
@@ -165,7 +174,8 @@ public abstract class BrandeisService implements WebService {
         commonMetadata.setSchema(metadataJsonScheme);
         commonMetadata.setVendor("http://www.cs.brandeis.edu/");
         commonMetadata.setLicense(Uri.APACHE2);
-        commonMetadata.setVersion(this.getVersion());
+        commonMetadata.setVersion(this.getWrapperVersion());
+        commonMetadata.setToolVersion(this.getWrappeeVersion());
         commonMetadata.setName(this.getClass().getName());
 
         return commonMetadata;
@@ -223,7 +233,7 @@ public abstract class BrandeisService implements WebService {
     }
 
     /** These will be overridden for each individual service **/
-    protected abstract String execute(Container json) throws BrandeisServiceException;
+    protected abstract String processPayload(Container json) throws BrandeisServiceException;
 
     protected abstract ServiceMetadata loadMetadata();
 
