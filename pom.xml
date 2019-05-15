@@ -15,6 +15,16 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <scm>
+        <url>https://github.com/brandeis-llc/lapps-app-scaffolding</url>
+        <connection>scm:git:https://github.com/brandeis-llc/lapps-app-scaffolding</connection>
+        <developerConnection>scm:git:git@github.com:brandeis-llc/lapps-app-scaffolding.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <url>https://github.com/brandeis-llc/lapps-app-scaffolding/issues</url>
+        <system>GitHub issues</system>
+    </issueManagement>
+
     <repositories>
         <repository>
             <id>brandeis-nexus</id>
