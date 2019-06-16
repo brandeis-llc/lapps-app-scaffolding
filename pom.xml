@@ -12,14 +12,25 @@
     <parent>
         <groupId>edu.brandeis.lapps</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
+
+    <developers>
+        <developer>
+            <id>keighrim</id>
+            <name>Keigh Rim</name>
+            <email>krim@brandeis.edu</email>
+            <organization>Lab for Linguistics and Computation, Brandeis University</organization>
+            <organizationUrl>https://www.cs.brandeis.edu/~llc/</organizationUrl>
+        </developer>
+    </developers>
 
     <scm>
         <url>https://github.com/brandeis-llc/lapps-app-scaffolding</url>
         <connection>scm:git:https://github.com/brandeis-llc/lapps-app-scaffolding</connection>
         <developerConnection>scm:git:git@github.com:brandeis-llc/lapps-app-scaffolding.git</developerConnection>
     </scm>
+
     <issueManagement>
         <url>https://github.com/brandeis-llc/lapps-app-scaffolding/issues</url>
         <system>GitHub issues</system>
@@ -27,8 +38,7 @@
 
     <repositories>
         <repository>
-            <id>brandeis-nexus</id>
-            <name>Nexus Repository hosted at Brandeis Computer Science Department</name>
+            <id>brandeis-llc-nexus</id>
             <url>http://morbius.cs-i.brandeis.edu:8081/repository/maven-public</url>
         </repository>
     </repositories>
