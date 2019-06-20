@@ -16,6 +16,7 @@ public class CliUtil {
                 annName + DateTimeFormatter.ofPattern("-yyyyMMdd'T'HHmmssX").withZone(ZoneOffset.UTC).format(Instant.now()));
         Files.createDirectory(outDir);
         for (File lifFile : Objects.requireNonNull(inDir.toFile().listFiles((dir, name) -> name.charAt(0) != '.' && name.endsWith(".lif")))) {
+            System.out.println("processing " + lifFile.getName());
             Path outFile = outDir.resolve(Paths.get(lifFile.getName()).getFileName());
             java.nio.file.Files.write(outFile, processInputStream(tool, new FileInputStream(lifFile)).getBytes());
         }
