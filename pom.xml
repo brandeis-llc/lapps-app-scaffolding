@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>app-scaffolding</artifactId>
     <!-- We decided to always use the same version as the parent-pom -->
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Brandeis LAPPS Grid application scaffolding</name>
     <description>
