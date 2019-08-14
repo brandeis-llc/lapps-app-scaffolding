@@ -21,8 +21,8 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
 
 public abstract class BrandeisService implements WebService {
 
-    public static final String containerJsonScheme = "http://vocab.lappsgrid.org/schema/container-schema-1.1.0.json";
-    public static final String metadataJsonScheme = "http://vocab.lappsgrid.org/schema/metadata-schema-1.1.0.json";
+    public static final String containerJsonScheme = "http://vocab.lappsgrid.org/schema/1.1.0/lif-schema.json";
+    public static final String metadataJsonScheme = "http://vocab.lappsgrid.org/schema/1.1.0/metadata-schema.json";
     public static final String TOKEN_ID = "tk_";
     public static final String SENT_ID = "s_";
     public static final String CONSTITUENT_ID = "c_";
