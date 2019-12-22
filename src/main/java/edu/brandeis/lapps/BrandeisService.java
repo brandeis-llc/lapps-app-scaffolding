@@ -171,9 +171,9 @@ public abstract class BrandeisService implements WebService {
 
     /*** Helper methods ***/
 
-    private String getVersion(String versionKey) {
+    private static String getVersion(String versionKey) {
         String path = "/version.properties";
-        InputStream stream = getClass().getResourceAsStream(path);
+        InputStream stream = BrandeisService.class.getResourceAsStream(path);
         if (stream == null) {
             return "UNKNOWN";
         }
@@ -187,11 +187,11 @@ public abstract class BrandeisService implements WebService {
         }
     }
 
-    public String getWrappeeVersion() {
+    public static String getWrappeeVersion() {
         return getVersion("toolversion");
     }
 
-    public String getWrapperVersion() {
+    public static String getWrapperVersion() {
         return getVersion("version");
     }
 
@@ -226,8 +226,8 @@ public abstract class BrandeisService implements WebService {
         commonMetadata.setSchema(metadataJsonScheme);
         commonMetadata.setVendor("http://www.cs.brandeis.edu/");
         commonMetadata.setLicense(Uri.APACHE2);
-        commonMetadata.setVersion(this.getWrapperVersion());
-        commonMetadata.setToolVersion(this.getWrappeeVersion());
+        commonMetadata.setVersion(getWrapperVersion());
+        commonMetadata.setToolVersion(getWrappeeVersion());
         commonMetadata.setName(this.getClass().getName());
 
         return commonMetadata;
