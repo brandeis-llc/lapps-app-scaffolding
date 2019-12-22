@@ -58,14 +58,19 @@ public abstract class BrandeisService implements WebService {
     }
 
     /*** LAPPS Grid methods ***/
-
-    /**
-     * This is default execute: takes a json, wrap it as a LIF, run individual tool
-     */
     @Override
     public String execute(String input) {
-        if (input == null)
-            return null;
+        return executeFlexible(input);
+    }
+
+    /**
+     * This is default execute: takes a text, wrap it as a LIF, run individual tool
+     */
+    public String executeFlexible(String input) {
+        if (input == null) {
+            String message = "Input is empty";
+            return new Data<>(Uri.ERROR, message).asJson();
+        }
         // in case of Json
         Data data;
 
@@ -98,7 +103,54 @@ public abstract class BrandeisService implements WebService {
                 break;
             default:
                 String message = String.format
-                        ("Unsupported discriminator type: %s", discriminator);
+                        ("Unsupported input data type: %s", discriminator);
+                return new Data<>(Uri.ERROR, message).asJson();
+        }
+
+        try {
+            return processPayload(payload);
+        } catch (Throwable th) {
+            th.printStackTrace();
+            String message =
+                    String.format("Error processing input: %s", th.toString());
+            return new Data<>(Uri.ERROR, message).asJson();
+        }
+    }
+
+    /**
+     * This version of execute will only accept LIF as input.
+     * If a service only supports LIF input, then it must override execute() to internally call this method.
+     */
+    public String executeLIFOnly(String input) {
+        if (input == null) {
+            String message = "Input is empty";
+            return new Data<>(Uri.ERROR, message).asJson();
+        }
+        // in case of Json
+        Data data;
+
+        try {
+            data = Serializer.parse(input, Data.class);
+            // Serializer#parse throws JsonParseException if input is not well-formed
+        } catch (Exception e) {
+            String message = "Input must be a LEDS JSON.";
+            return new Data<>(Uri.ERROR, message).asJson();
+        }
+
+        final String discriminator = data.getDiscriminator();
+        Container payload;
+
+        switch (discriminator) {
+            case Uri.ERROR:
+                return input;
+            case Uri.JSON_LD:
+            case Uri.LIF:
+                payload = new Container((Map) data.getPayload());
+                // TODO: 5/9/18 what if the existing payload has different schema version?
+                break;
+            default:
+                String message = String.format
+                        ("Unsupported input data type: %s", discriminator);
                 return new Data<>(Uri.ERROR, message).asJson();
         }
 
