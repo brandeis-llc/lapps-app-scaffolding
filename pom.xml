@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>app-scaffolding</artifactId>
     <!-- We decided to always use the same version as the parent-pom -->
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>Brandeis LAPPS Grid application scaffolding</name>
     <description>
@@ -28,7 +28,7 @@
         <url>https://github.com/brandeis-llc/lapps-app-scaffolding</url>
         <connection>scm:git:https://github.com/brandeis-llc/lapps-app-scaffolding</connection>
         <developerConnection>scm:git:git@github.com:brandeis-llc/lapps-app-scaffolding.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>v1.0.2</tag>
   </scm>
 
     <issueManagement>
